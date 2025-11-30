@@ -212,6 +212,7 @@
     .ai-result p { margin-bottom: 1rem; }
     .ai-result ul, .ai-result ol { padding-left: 20px; margin-bottom: 1rem; }
     .ai-result li { margin-bottom: 0.5rem; color: var(--text-main); }
+    .ai-result strong { color: var(--primary); font-weight: 700; } /* Ensure markdown bold is styled */
     
     /* Loading Animation */
     .loading-dots { display: flex; gap: 8px; justify-content: center; align-items: center; margin-top: 20px; display: none; }
@@ -684,7 +685,7 @@
         
         const prompt = `Khách hàng muốn thuê xe máy tại Hà Nội với nhu cầu: "${input}". 
         Hãy đóng vai chuyên gia xe của Nguyễn Tú Bike, đề xuất 1 dòng xe phù hợp nhất trong 3 loại: Honda Vision (xe ga nhỏ), Honda Airblade 160 (xe ga khỏe), Wave Alpha (xe số).
-        Giải thích ngắn gọn tại sao chọn xe đó. Trả lời ngắn gọn 2-3 câu.`;
+        Giải thích ngắn gọn tại sao chọn xe đó. Trả lời ngắn gọn 2-3 câu, định dạng Markdown.`;
 
         try {
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
@@ -692,8 +693,9 @@
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
             const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
             result.style.display = 'block';
-            result.innerHTML = '<strong>💡 Tư vấn:</strong> ' + data.candidates?.[0]?.content?.parts?.[0]?.text;
+            result.innerHTML = '<strong>💡 Tư vấn:</strong> ' + marked.parse(text);
         } catch (e) { result.innerText = "Lỗi kết nối."; }
         finally { btn.disabled = false; btn.innerText = "Tư Vấn Chọn Xe"; }
     }
@@ -707,7 +709,7 @@
         if (!input) return;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; btn.disabled = true;
 
-        const prompt = `Bạn là nhân viên CSKH thông minh của Nguyễn Tú Bike. Trả lời câu hỏi: "${input}". Ngữ cảnh: Shop ở 116 Cầu Gỗ, Hoàn Kiếm. Có giao xe tận nơi. Giá từ 100k-150k. Cần cọc nếu không phải khách du lịch.`;
+        const prompt = `Bạn là nhân viên CSKH thông minh của Nguyễn Tú Bike. Trả lời câu hỏi: "${input}". Ngữ cảnh: Shop ở 116 Cầu Gỗ, Hoàn Kiếm. Có giao xe tận nơi. Giá từ 100k-150k. Cần cọc nếu không phải khách du lịch. Trả lời ngắn gọn, định dạng Markdown.`;
 
         try {
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
@@ -715,8 +717,9 @@
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
             const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
             answerBox.style.display = 'block';
-            answerBox.innerHTML = '<strong>🤖 Trả lời:</strong> ' + data.candidates?.[0]?.content?.parts?.[0]?.text;
+            answerBox.innerHTML = '<strong>🤖 Trả lời:</strong> ' + marked.parse(text);
         } catch (e) { answerBox.innerText = "Lỗi kết nối."; }
         finally { btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>'; btn.disabled = false; }
     }
@@ -744,7 +747,7 @@
             });
             const data = await response.json();
             const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            result.innerHTML = text.replace(/\n/g, '<br>');
+            result.innerHTML = marked.parse(text);
             result.style.display = 'block';
         } catch (e) { result.innerText = "Lỗi kết nối."; result.style.display = 'block'; }
         finally { loading.style.display = 'none'; btn.disabled = false; }
@@ -806,7 +809,5 @@
 
     document.addEventListener('DOMContentLoaded', () => Render.init());
 </script>
-
-  <script defer src="https://motoopen.github.io/chothuexemayhanoi/motoai_v39_modelfirst_nomarkdown_nolink.js"></script>
 </body>
 </html>
