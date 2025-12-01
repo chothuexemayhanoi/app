@@ -894,6 +894,14 @@
                 ]
             },
             { t: "FAQ", l: "faq.html", i: ICONS.doc },
+            // ADDED NEW MENU GROUP HERE
+            {
+                t: "Chính sách", l: "#", i: ICONS.doc,
+                sub: [
+                    { t: "Chính sách bảo mật", l: "chinhsach.html", i: ICONS.doc },
+                    { t: "Điều khoản sử dụng", l: "dieukhoan.html", i: ICONS.doc }
+                ]
+            },
             { t: "Liên hệ", l: "lienhe.html", i: ICONS.mail }
         ]
     };
@@ -974,6 +982,10 @@
                 <div class="f-col">
                     <h4><span class="material-symbols-rounded">info</span> Về Nguyễn Tú</h4>
                     <a href="gioithieu.html" class="f-link">${iconInfo} Giới thiệu</a>
+                    <!-- ADDED NEW LINKS HERE -->
+                    <a href="chinhsach.html" class="f-link">${iconDoc} Chính sách bảo mật</a>
+                    <a href="dieukhoan.html" class="f-link">${iconDoc} Điều khoản sử dụng</a>
+                    <!-- END NEW LINKS -->
                     <a href="lienhe.html" class="f-link">${iconInfo} Liên hệ</a>
                     <div style="margin-top:24px; display:flex; gap:12px;">
                         <button class="action-btn"><i class="fa-brands fa-facebook-f"></i></button>
@@ -1047,12 +1059,10 @@
             });
 
             const tBtn = document.getElementById('theme-btn');
-            // UPDATED THEME LOGIC PER REQUEST
             tBtn.onclick = () => {
                 const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                const newTheme = isDark ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                tBtn.innerHTML = newTheme === 'dark'
+                document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+                tBtn.innerHTML = isDark
                     ? '<span class="material-symbols-rounded">dark_mode</span>'
                     : '<span class="material-symbols-rounded">light_mode</span>';
             };
