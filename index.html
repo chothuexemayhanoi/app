@@ -110,7 +110,7 @@
         line-height: 1.5;
     }
 
-    /* --- FONT INHERITANCE FIX (ADDED) --- */
+    /* --- FONT INHERITANCE FIX --- */
     input,
     button,
     select,
@@ -840,13 +840,13 @@
     </div>
 </footer>
 
-<!-- DOCK -->
+<!-- DOCK (UPDATED REL ATTRIBUTES) -->
 <div class="dock-wrapper">
     <nav class="dock">
         <a href="tel:0942467674" class="dock-btn main" data-tooltip="Gọi"><i class="fa-solid fa-phone"></i></a>
-        <a href="https://zalo.me/0942467674" target="_blank" class="dock-btn" data-color="blue" data-tooltip="Zalo"><i class="fa-solid fa-comment-dots"></i></a>
-        <a href="https://wa.me/84942467674" target="_blank" class="dock-btn" data-color="green" data-tooltip="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-        <a href="https://maps.app.goo.gl/SR1hcwnCQjPkAvDh7" target="_blank" class="dock-btn" data-color="yellow" data-tooltip="Map"><i class="fa-solid fa-location-dot"></i></a>
+        <a href="https://zalo.me/0942467674" target="_blank" rel="noopener noreferrer" class="dock-btn" data-color="blue" data-tooltip="Zalo"><i class="fa-solid fa-comment-dots"></i></a>
+        <a href="https://wa.me/84942467674" target="_blank" rel="noopener noreferrer" class="dock-btn" data-color="green" data-tooltip="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://maps.app.goo.gl/SR1hcwnCQjPkAvDh7" target="_blank" rel="noopener noreferrer" class="dock-btn" data-color="yellow" data-tooltip="Map"><i class="fa-solid fa-location-dot"></i></a>
         <a href="#top" class="dock-btn" data-color="purple" data-tooltip="Top"><i class="fa-solid fa-arrow-up"></i></a>
     </nav>
 </div>
@@ -1047,10 +1047,12 @@
             });
 
             const tBtn = document.getElementById('theme-btn');
+            // UPDATED THEME LOGIC PER REQUEST
             tBtn.onclick = () => {
                 const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-                tBtn.innerHTML = isDark
+                const newTheme = isDark ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                tBtn.innerHTML = newTheme === 'dark'
                     ? '<span class="material-symbols-rounded">dark_mode</span>'
                     : '<span class="material-symbols-rounded">light_mode</span>';
             };
